@@ -18,6 +18,8 @@ const task1 = new Task("1", "task1", "100g", "Rayon1", false)
 const task2 = new Task("2", "task2", "100g", "Rayon2", true)
 const tasks = [task1, task2]
 
+const headerColor = "#4caf50"
+
 function TaskItem({ name }: { name: string }) {
   return <p>{name} </p>
 }
@@ -32,7 +34,7 @@ function Header() {
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "flex-start",
-        backgroundColor: "#4caf50",
+        backgroundColor: headerColor,
         gap: "15px",
         width: "100%",
       }}
@@ -72,6 +74,8 @@ function Tabs() {
   const [activeTab, setActiveTab] = useState(0)
   const hideIfInactive = (tabIndex: number) =>
     activeTab == tabIndex ? "block" : "none"
+  const activeColor = (tabIndex: number) =>
+    activeTab == tabIndex ? "white" : "black"
   const stores = [...new Set(tasks.map((t) => t.store))]
   return (
     <>
@@ -81,10 +85,15 @@ function Tabs() {
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-evenly",
+          backgroundColor: headerColor,
         }}
       >
-        <button onClick={() => setActiveTab(0)}>TAB1</button>
-        <button onClick={() => setActiveTab(1)}>TAB2</button>
+        <h2 style={{ color: activeColor(0) }} onClick={() => setActiveTab(0)}>
+          RAYON
+        </h2>
+        <h2 style={{ color: activeColor(1) }} onClick={() => setActiveTab(1)}>
+          A VENIR
+        </h2>
       </div>
       <div style={{ display: hideIfInactive(0) }}>
         {stores.map((store) => (
@@ -109,7 +118,6 @@ function App() {
         alignItems: "stretch",
         height: "100vh",
         width: "40vw",
-        backgroundColor: "#e8d297",
       }}
     >
       <Header />
