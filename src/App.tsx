@@ -7,12 +7,13 @@ class Task {
     public id: string,
     public name: string,
     public quantity: string,
+    public store: string,
     public checked: boolean,
   ) {}
 }
 
-const task1 = new Task("1", "task1", "100g", false)
-const task2 = new Task("2", "task2", "100g", true)
+const task1 = new Task("1", "task1", "100g", "Rayon1", false)
+const task2 = new Task("2", "task2", "100g", "Rayon2", true)
 const tasks = [task1, task2]
 
 function TaskItem({ name }: { name: string }) {
@@ -47,10 +48,31 @@ function Header() {
   )
 }
 
+function Section({ title, tasks }: { title: string; tasks: Task[] }) {
+  const [show, setShow] = useState(true)
+  return (
+    <div
+      style={{
+        display: "flex",
+        backgroundColor: "grey",
+        flexDirection: "column",
+      }}
+    >
+      <h1 onClick={() => setShow(!show)}>{title}</h1>
+      <div style={{ display: show ? "block" : "none" }}>
+        {tasks.map((t) => (
+          <TaskItem key={t.id} name={t.name} />
+        ))}
+      </div>
+    </div>
+  )
+}
+
 function Tabs() {
   const [activeTab, setActiveTab] = useState(0)
   const hideIfInactive = (tabIndex: number) =>
     activeTab == tabIndex ? "block" : "none"
+  const stores = [...new Set(tasks.map((t) => t.store))]
   return (
     <>
       <div
@@ -65,8 +87,11 @@ function Tabs() {
         <button onClick={() => setActiveTab(1)}>TAB2</button>
       </div>
       <div style={{ display: hideIfInactive(0) }}>
-        {tasks.map((t) => (
-          <TaskItem key={t.id} name={t.name} />
+        {stores.map((store) => (
+          <Section
+            title={store}
+            tasks={tasks.filter((t) => t.store == store)}
+          />
         ))}
       </div>
       <div style={{ display: hideIfInactive(1) }}>THIS IS TAB 2</div>
@@ -75,15 +100,13 @@ function Tabs() {
 }
 
 function App() {
-  // const [count, setCount] = useState(0)
-
   return (
     <div
       style={{
         display: "flex",
         flexDirection: "column",
         justifyContent: "flex-start",
-        alignItems: "flex-start",
+        alignItems: "stretch",
         height: "100vh",
         width: "40vw",
         backgroundColor: "#e8d297",
