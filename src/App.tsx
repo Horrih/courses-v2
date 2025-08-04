@@ -1,5 +1,7 @@
 // import { useState } from 'react'
 import { useState } from "react"
+import MenuSvg from "./assets/icons/menu.svg?react"
+import ShareSvg from "./assets/icons/share.svg?react"
 import "./App.css"
 
 class Task {
@@ -35,15 +37,13 @@ function Header() {
         width: "100%",
       }}
     >
-      <div>
-        <div style={{ fontSize: "48px" }}>☰</div>
-      </div>
+      <MenuSvg width="32px" height="32px" />
       <div style={{ fontSize: "18px", fontWeight: "bold" }}>Mes Courses</div>
       <div>
         {" "}
         {nbCompleted}/{tasks.length} ({percent}%)
       </div>
-      <button style={{ marginLeft: "auto" }}>share</button>
+      <ShareSvg style={{ marginLeft: "auto" }} width="32px" height="32px" />
     </header>
   )
 }
