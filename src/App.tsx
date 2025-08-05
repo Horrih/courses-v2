@@ -68,6 +68,7 @@ function Section({
   onTaskUpdated: any
 }) {
   const [show, setShow] = useState(true)
+  const sortedTasks = tasks.toSorted((a, b) => a.name.localeCompare(b.name))
   return (
     <div
       style={{
@@ -77,7 +78,7 @@ function Section({
     >
       <h2 onClick={() => setShow(!show)}>{title}</h2>
       <div style={{ display: show ? "block" : "none" }}>
-        {tasks.map((t) => (
+        {sortedTasks.map((t) => (
           <TaskItem key={t.id} task={t} onTaskUpdated={onTaskUpdated} />
         ))}
       </div>
@@ -91,7 +92,7 @@ function Tabs({ tasks, onTaskUpdated }: { tasks: Task[]; onTaskUpdated: any }) {
     activeTab == tabIndex ? "block" : "none"
   const activeColor = (tabIndex: number) =>
     activeTab == tabIndex ? "white" : "black"
-  const stores = [...new Set(tasks.map((t) => t.store))]
+  const stores = [...new Set(tasks.map((t) => t.store))].toSorted()
   return (
     <>
       <div
